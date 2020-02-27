@@ -4,9 +4,15 @@ set protocols bgp group {{ groupname }} neighbor {{ groupipv4 }} export {{ group
 set protocols bgp group {{ groupname }} neighbor {{ groupipv4 }} peer-as {{ asn }}
 set protocols bgp group {{ groupname }} neighbor {{ groupipv4 }} description "{{ ASNdesc }}"
 set protocols bgp group {{ groupname }} neighbor {{ groupipv4 }} family inet unicast
+set protocols bgp group {{ groupname }} neighbor {{ groupipv4 }} family inet unicast accepted-prefix-limit maximum {{ prefixlimitipv4 }}
+set protocols bgp group {{ groupname }} neighbor {{ groupipv4 }} family inet unicast accepted-prefix-limit teardown 95
+set protocols bgp group {{ groupname }} neighbor {{ groupipv4 }} family inet unicast accepted-prefix-limit teardown idle-timeout 5
 set protocols bgp group {{ groupname }} neighbor {{ groupipv6 }} mtu-discovery
 set protocols bgp group {{ groupname }} neighbor {{ groupipv6 }} import {{ groupname }}-ipv6-inbound
 set protocols bgp group {{ groupname }} neighbor {{ groupipv6 }} export {{ groupname }}-ipv6-outbound
 set protocols bgp group {{ groupname }} neighbor {{ groupipv6 }} peer-as {{ asn }}
 set protocols bgp group {{ groupname }} neighbor {{ groupipv6 }} description "{{ ASNdesc }}"
 set protocols bgp group {{ groupname }} neighbor {{ groupipv6 }} family inet6 unicast
+set protocols bgp group {{ groupname }} neighbor {{ groupipv6 }} family inet6 unicast accepted-prefix-limit maximum {{ prefixlimitipv6 }}
+set protocols bgp group {{ groupname }} neighbor {{ groupipv6 }} family inet6 unicast accepted-prefix-limit teardown 95
+set protocols bgp group {{ groupname }} neighbor {{ groupipv6 }} family inet6 unicast accepted-prefix-limit teardown idle-timeout 5
