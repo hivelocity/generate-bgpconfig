@@ -8,6 +8,9 @@ from jinja2 import Template
 peeringdb_username = ''
 peeringdb_password = ''
 ASNtoMatch = '29802'
+prefixlimitipv4 = 0
+prefixlimitipv6 = 0
+
 if not os.path.isfile('config.json'):
     if os.path.isfile('config.example.json'): copyfile ('config.example.json','config.json')
 try:
@@ -89,6 +92,9 @@ commands = ''
 try:
     ASNdesc = ASNinfo['name']
     ASNdesc = ASNinfo['name'] + ' (' + ASNinfo['poc_set'][0]['email'] + ')'
+    prefixlimitipv4 = ASNinfo['info_prefixes4']
+    prefixlimitipv6 = ASNinfo['info_prefixes6']
+
 except Exception as ex:
     print('Exception occurred getting contact information! Details: ' + str(ex))
     userInput = input('Continuing may cause configuration generated to be incomplete (likely missing contact information / email addresses). Continue? y / n : ')
@@ -118,7 +124,7 @@ for ix in ixs_in_common:
     f = open('template.j2','r')
     groupFilename = groupname + '-AS' + str(ix['asn']) + '.set'
     groupFile = open(groupFilename,'a+')
-    template = Template(f.read()).render(groupname=groupname,groupipv4=groupipv4,groupipv6=groupipv6,asn=ASN,ASNdesc=ASNdesc)
+    template = Template(f.read()).render(groupname=groupname,groupipv4=groupipv4,groupipv6=groupipv6,asn=ASN,ASNdesc=ASNdesc,prefixlimitipv4=prefixlimitipv4,prefixlimitipv6=prefixlimitipv6)
     commands += template
     groupFile.write(template)
     #groupFile.append(template)
@@ -132,3 +138,6 @@ f.close()
 print('Commands written to file config_full.set!')
 userInput = input('Would you like to view the full commands? ')
 if userInput.lower().strip()[0] == 'y': print(commands)
+#print('prefixlimitipv4 is ' + str(prefixlimitipv4))
+#print('prefixlimitipv6 is ' + str(prefixlimitipv6))
+#print(getPeeringDB(ASN))
