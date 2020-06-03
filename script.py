@@ -125,7 +125,7 @@ for ix in ixs_in_common:
     groupFilename = groupname + '-AS' + str(ix['asn']) + '.set'
     groupFile = open(groupFilename,'a+')
     template = Template(f.read()).render(groupname=groupname,groupipv4=groupipv4,groupipv6=groupipv6,asn=ASN,ASNdesc=ASNdesc,prefixlimitipv4=prefixlimitipv4,prefixlimitipv6=prefixlimitipv6)
-    commands += template
+    commands += template + '\n'
     groupFile.write(template)
     #groupFile.append(template)
     groupFile.close()
